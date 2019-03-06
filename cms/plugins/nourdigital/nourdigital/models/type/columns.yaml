@@ -1,0 +1,4 @@
+columns:
+    type:
+        label: 'Type of service'
+        type: text

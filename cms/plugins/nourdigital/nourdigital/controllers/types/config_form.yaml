@@ -1,0 +1,10 @@
+name: Types
+form: $/nourdigital/nourdigital/models/type/fields.yaml
+modelClass: Nourdigital\Nourdigital\Models\Type
+defaultRedirect: nourdigital/nourdigital/types
+create:
+    redirect: 'nourdigital/nourdigital/types/update/:id'
+    redirectClose: nourdigital/nourdigital/types
+update:
+    redirect: nourdigital/nourdigital/types
+    redirectClose: nourdigital/nourdigital/types

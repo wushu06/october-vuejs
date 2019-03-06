@@ -1,0 +1,12 @@
+list: $/nourdigital/nourdigital/models/type/columns.yaml
+modelClass: Nourdigital\Nourdigital\Models\Type
+title: Types
+noRecordsMessage: 'backend::lang.list.no_records'
+showSetup: true
+showCheckboxes: true
+recordsPerPage: 20
+toolbar:
+    buttons: list_toolbar
+    search:
+        prompt: 'backend::lang.list.search_prompt'
+recordUrl: 'nourdigital/nourdigital/types/update/:id'

@@ -1,0 +1,17 @@
+1.0.1:
+    - 'Initialize plugin.'
+1.0.2:
+    - 'Created table nourdigital_nourdigital_types'
+    - builder_table_create_nourdigital_nourdigital_types.php
+1.0.3:
+    - 'Updated table nourdigital_nourdigital_types'
+    - builder_table_update_nourdigital_nourdigital_types.php
+1.0.4:
+    - 'Updated table nourdigital_nourdigital_types'
+    - builder_table_update_nourdigital_nourdigital_types_2.php
+1.0.5:
+    - 'Created table nourdigital_nourdigital_reservations'
+    - builder_table_create_nourdigital_nourdigital_reservations.php
+1.0.6:
+    - 'Updated table nourdigital_nourdigital_reservations'
+    - builder_table_update_nourdigital_nourdigital_reservations.php

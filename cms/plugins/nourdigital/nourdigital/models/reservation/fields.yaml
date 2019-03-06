@@ -1,0 +1,18 @@
+fields:
+    date:
+        label: 'Reservation Date'
+        mode: datetime
+        span: auto
+        type: datepicker
+    user:
+        label: User
+        nameFrom: name
+        descriptionFrom: description
+        span: auto
+        type: relation
+    type:
+        label: 'Service type'
+        nameFrom: type
+        descriptionFrom: description
+        span: auto
+        type: relation

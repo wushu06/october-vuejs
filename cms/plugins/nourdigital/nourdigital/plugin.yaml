@@ -1,0 +1,16 @@
+plugin:
+    name: 'nourdigital.nourdigital::lang.plugin.name'
+    description: 'nourdigital.nourdigital::lang.plugin.description'
+    author: nourDigital
+    icon: oc-icon-bookmark
+    homepage: ''
+navigation:
+    reservation-control-panel:
+        label: 'Reservation Control Panel'
+        url: nourdigital/nourdigital/reservations
+        icon: icon-table
+        sideMenu:
+            types:
+                label: 'Service type'
+                url: nourdigital/nourdigital/types
+                icon: icon-ticket

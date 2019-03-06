@@ -1,0 +1,10 @@
+name: Reservations
+form: $/nourdigital/nourdigital/models/reservation/fields.yaml
+modelClass: Nourdigital\Nourdigital\Models\Reservation
+defaultRedirect: nourdigital/nourdigital/reservations
+create:
+    redirect: 'nourdigital/nourdigital/reservations/update/:id'
+    redirectClose: nourdigital/nourdigital/reservations
+update:
+    redirect: nourdigital/nourdigital/reservations
+    redirectClose: nourdigital/nourdigital/reservations

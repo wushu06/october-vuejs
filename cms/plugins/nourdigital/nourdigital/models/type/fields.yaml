@@ -1,0 +1,12 @@
+fields:
+    type:
+        label: 'Type of service'
+        span: auto
+        type: text
+    slug:
+        label: Slug
+        span: auto
+        preset:
+            field: type
+            type: slug
+        type: text
