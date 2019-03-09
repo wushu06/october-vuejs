@@ -70,8 +70,7 @@
             },
 
             token(){
-
-                return this.$store.getters.token;
+                return this.$store.getters.token && this.$store.getters.tokenValid;
             },
 
             userReservation(){
@@ -99,6 +98,7 @@
 
         },
         mounted(){
+            this.$store.dispatch('checkToken');
             this.$store.dispatch('getTypes')
             this.$store.dispatch('userReservation', +this.$store.getters.user.id);
 

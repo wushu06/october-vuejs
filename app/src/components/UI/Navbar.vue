@@ -6,7 +6,7 @@
         <v-spacer></v-spacer>
 
         <v-toolbar-items class="hidden-xs-only">
-            <v-tooltip bottom>
+            <v-tooltip bottom v-if="token">
                 <template v-slot:activator="{ on }">
                     <v-btn flat v-on="on">
                         <router-link to="/reservation"><i class="fas fa-table"></i></router-link>
@@ -87,7 +87,6 @@
                 items: [
                     { title: 'Home', icon: 'dashboard', link: '/' },
                     { title: 'contact', icon: 'question_answer', link: '/contact' },
-                    { title: 'Reservations', icon: 'question_answer', link: '/reservation' },
                     { title: 'Profile', icon: 'question_answer', link: '/profile' },
                 ]
             }
@@ -98,14 +97,15 @@
               return this.$store.getters.user.name;
           },
             token(){
-                return this.$store.getters.token;
+                return this.$store.getters && this.$store.getters.tokenValid;
             },
             menu(){
                let menu =  this.items
 
-                if(this.$store.getters.token){
+                if(this.token){
                     if (menu.filter(function(e) { return e.title === 'logout'; }).length <= 0) {
                         menu.push( { title: 'logout', icon: 'question_answer', link: '/logout' })
+                        menu.unshift( { title: 'Reservations', icon: 'question_answer', link: '/reservation' })
                     }
                 }
                return menu;

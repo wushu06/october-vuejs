@@ -3,7 +3,7 @@
 
         <div v-if="edit">
             <h1>Edit reservation</h1>
-
+        {{this.$store.getters.user.id}}
             <form>
                 <div class="date_time">
                     <div><h3>{{moment(editData.date)}}</h3></div>
@@ -43,19 +43,22 @@
 
 
 
-                      <div v-if="eventDate">
-                            <h3>{{moment(eventDate)}}</h3>
-                          <div class="date_time">
-                          <label for="">Pick a time</label>
-                          <datetime
+                  <div v-if="!monthView">
+                        <h3>{{moment(eventDate)}} </h3>
+                  </div>
+                <div v-else>
+                    <h3>{{moment(eventDate)}}</h3>
+                    <div class="date_time">
+                        <label for="">Pick a time</label>
+                        <datetime
 
-                                  @input="setDate($event)"
-                                  type="time"
-                                  :min-datetime="now"
-                                  :max-datetime="now"
-                          />
-                      </div>
-                      </div>
+                                @input="setDate($event)"
+                                type="time"
+                                :min-datetime="now"
+                                :max-datetime="now"
+                        />
+                    </div>
+                </div>
 
                 <div class="date_time"  v-else>
                     <label for="">Pick a date and time</label>
@@ -72,6 +75,13 @@
                         :items="types"
                         v-on:input="onSelect"
                         label="Select service type"
+                ></v-select>
+                <v-select
+                        item-text="name"
+                        item-value="id"
+                        :items="users"
+                        v-on:input="onSelectUser"
+                        label="Select client"
                 ></v-select>
                 <v-btn @click="submit" color="#5c6bc0" style="color: white">submit</v-btn>
 
@@ -103,11 +113,16 @@
             all: {
                 type: Boolean,
                 default: true
+            },
+            monthView: {
+                type: Boolean,
+                default: false
             }
         },
         data: () => ({
             date: '',
             type: '',
+            user: '',
             e7: null
 
 
@@ -120,12 +135,15 @@
             now() {
 
                 const date = this.eventDate ? new Date(this.eventDate) :  new Date(Date.now())
-
+;
                 return date.toISOString()
             },
             types() {
 
                 return  this.$store.getters.allTypes
+            },
+            users(){
+                return  this.$store.getters.allUsers
             }
         },
 
@@ -133,11 +151,14 @@
             setDate(value) {
 
                 this.date   = value
-                console.log(this.date);
+
             },
             onSelect(selectObj){
               this.type   = selectObj
 
+            },
+            onSelectUser(selectObj){
+              this.user = selectObj
             },
             cancelReservation(){
                 this.editData = {}
@@ -151,12 +172,15 @@
                         date: this.date ? moment(this.date).format('YYYY-MM-DD hh:mm') : moment(this.editData.date).format('YYYY-MM-DD hh:mm') ,
                         type_id: this.type ? +this.type :  +this.editData.type_id,
                         user_id: user_id,
-                        id: this.editData.id
+                        id: this.editData.id,
+                        employee_id: this.editData.employee_id
                     }
+                    console.log(data);
                     this.$store.dispatch('editReservation', data)
                 //}
             },
             submit () {
+
                 if(this.date && this.type){
                   /*  const reservationData = new URLSearchParams()
                     reservationData.append('date',    this.date)
@@ -170,8 +194,10 @@
                         token:  this.$store.getters.token,
                         date:      moment(this.date).format('YYYY-MM-DD hh:mm'),
                         type_id: +this.type,
-                        user_id: +this.$store.getters.user.id
+                        user_id: +this.$store.getters.user.id,
+                        employee_id: this.editData.employee_id
                     }
+
                      this.$store.dispatch('createReservation', data)
                     this.date = ''
                     this.type = ''
@@ -186,6 +212,10 @@
             moment: function (date) {
                 return moment(date).format('MMMM Do YYYY, h:mm:ss a');
             }
+        },
+        created(){
+
+            this.$store.dispatch('getUsers');
         }
     }
 </script>

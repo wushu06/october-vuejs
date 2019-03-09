@@ -24,3 +24,13 @@ aside {
 .v-dialog {
   overflow: visible !important;
 }
+.calendar_wrapper {
+  overflow-y: scroll;
+}
+.fc-disabled-day {
+  background: red !important;
+
+}
+.active {
+  color: #5c6bc0!important;
+}
