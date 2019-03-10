@@ -18,8 +18,19 @@ class Reservation extends Model
 
     public $belongsTo = [
         'type' => 'nourdigital\nourdigital\models\Type',
-        'user' => 'RainLab\User\Models\User'
+        'user' => 'RainLab\User\Models\User',
+       // 'employee' =>  'nourdigital\nourdigital\models\Employee'
     ];
+
+    public $belongsToMany = [
+
+        'employee'=> [
+            'nourdigital\nourdigital\models\Employee', // define the model where the data is coming from
+            'table' => 'nourdigital_nourdigital_employees_reservations', // the table where the data is coming from
+            'order'=> 'job_title'
+        ]
+    ];
+
 
 
 

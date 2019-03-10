@@ -2,6 +2,8 @@
 
 use nourdigital\nourdigital\models\Type;
 use nourdigital\nourdigital\models\Reservation;
+use nourdigital\nourdigital\models\Employee;
+//use RainLab\User\Models\User;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
 
@@ -14,7 +16,29 @@ Route::get('types', function () {
 
 // - 4 - in the routes define the relation in the returned result
 Route::get('reservations', function () {
-    $reservation = Reservation::with(['type', 'user'])->get();
+    $reservation = Reservation::with(['type', 'user', 'employee'])->get();
+
+    return $reservation;
+});
+
+Route::get('employees', function () {
+    $employees = Employee::all();
+    return $employees;
+});
+
+Route::get('users', function () {
+    $employees = User::all();
+    return $employees;
+});
+
+// jobs by id and reservations by id are the same
+
+Route::get('reservations/employee/{id}', function ($id) {
+    $reservation =  DB::table('nourdigital_nourdigital_reservations as reservation')
+        ->select('reservation.id','date','name', 'email','type', 'user_id', 'reservation.type_id', 'reservation.employee_id')
+        ->join('users', 'reservation.user_id', '=', 'users.id')
+        ->join('nourdigital_nourdigital_types as type',  'reservation.type_id', '=', 'type.id')
+        ->where('reservation.employee_id', '=', $id)->get();
 
     return $reservation;
 });
@@ -41,6 +65,7 @@ Route::middleware(['api','jwt.auth'])->group(function () {
         $reservation->date = $request->date;
         $reservation->user_id = $request->user_id;
         $reservation->type_id = $request->type_id;
+        $reservation->employee_id = $request->employee_id;
         $reservation->save();
         return response()->json('Reservation Created!');
     });

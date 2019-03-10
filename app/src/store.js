@@ -29,7 +29,7 @@ export default new Vuex.Store({
         users: [],
         employeeData: [],
         token: '',
-        loginErrors: [],
+        loginErrors: '',
         invalidCredentials: '',
     },
     getters: {
@@ -79,12 +79,15 @@ export default new Vuex.Store({
             state.tokenValid = valid
         },
         SET_LOGIN_ERRORS: (state, loginErrors) => {
+
             state.loginErrors = loginErrors
         },
         SET_INVALID_CREDENTIALS: (state, invalidCredentials) => {
             state.invalidCredentials = invalidCredentials
         },
         LOGOUT: (state) => {
+            document.cookie = 'vuex=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+
             state.user = ''
             state.token = ''
         }
@@ -99,6 +102,12 @@ export default new Vuex.Store({
 
                     commit('GET_USERS', res.data)
                 })
+                .catch(error => {
+                    //this.dispatch('logout')
+                    commit('SET_LOGIN_ERRORS', 'Getting users error: '+ error.response.status+' '+error.response.statusText)
+                   //  this.dispatch('refreshToken')
+
+                })
         },
         getEmployees({commit }) {
              axios.get('http://barber-october.localhost/cms/employees')
@@ -108,14 +117,35 @@ export default new Vuex.Store({
 
                     commit('GET_EMPLOYEES', res.data)
                 })
+                 .catch(error => {
+                     //this.dispatch('logout')
+                     commit('SET_LOGIN_ERRORS', 'Getting employees error: '+ error.response.status+' '+error.response.statusText)
+                     // this.dispatch('refreshToken')
+
+                 })
         },
-        async getReservationByEmployee({commit}, id){
+      /*  async getReservationByEmployee({commit}, id){
             return await  axios.get(`http://barber-october.localhost/cms/reservations/employee/${id}`)
                 .then((res)=> {
                     // commit will fire mutations
-                    return res.data
+                    console.log(res.data);
                     commit('GET_EMPLOYEE_DATA', res.data)
                 })
+        },*/
+       getReservationByEmployee({commit}, id){
+              axios.get(`http://barber-october.localhost/cms/reservations/employee/${id}`)
+                .then((res)=> {
+
+                    // commit will fire mutations
+                 // console.log(res.data);
+                    commit('GET_EMPLOYEE_DATA', res.data)
+                })
+                  .catch(error => {
+                      //this.dispatch('logout')
+                      commit('SET_LOGIN_ERRORS', 'Getting emplyee error: '+ error.response.status+' '+error.response.statusText)
+                      // this.dispatch('refreshToken')
+
+                  })
         },
         getTypes ({commit }) {
             axios.get('http://barber-october.localhost/cms/types')
@@ -123,14 +153,26 @@ export default new Vuex.Store({
                     // commit will fire mutations
                     commit('GET_TYPES', res.data)
                 })
+                .catch(error => {
+                    //this.dispatch('logout')
+                    commit('SET_LOGIN_ERRORS', 'Getting types error: '+ error.response.status+' '+error.response.statusText)
+                    // this.dispatch('refreshToken')
+
+                })
         },
         getReservations ({commit }) {
 
             axios.get('http://barber-october.localhost/cms/reservations')
                 .then((res)=> {
                     // commit will fire mutations
-
+                  //  console.log(res.data);
                     commit('GET_RESERVATIONS', res.data)
+                })
+                .catch(error => {
+                    //this.dispatch('logout')
+                    commit('SET_LOGIN_ERRORS', 'Getting reservations error: '+ error.response.status+' '+error.response.statusText)
+                    // this.dispatch('refreshToken')
+
                 })
 
         },
@@ -140,7 +182,13 @@ export default new Vuex.Store({
 
                     // commit will fire mutations
                     commit('GET_USER_RESERVATION', res.data)
-                }).catch(err=> console.log(err))
+                })
+                .catch(error => {
+                    //this.dispatch('logout')
+                    commit('SET_LOGIN_ERRORS', 'Getting user reservation error: '+ error.response.status+' '+error.response.statusText)
+                    // this.dispatch('refreshToken')
+
+                })
         },
         editReservation ({commit, state },  data) {
 
@@ -160,15 +208,14 @@ export default new Vuex.Store({
                 .then(response => {
                     this.dispatch('userReservation', +this.state.user.id);
                     this.dispatch('getReservations');
-
-                    console.log('edited');
+                    this.dispatch('getReservationByEmployee',  +window.location.hash.substr(1))
+                   // console.log('edited');
                 })
                 .catch(error => {
-                    if(error.message === 'Request failed with status code 401'){
-                        //this.dispatch('logout')
-                        console.log('called refresh');
-                        this.dispatch('refreshToken')
-                    }
+                    //this.dispatch('logout')
+                    commit('SET_LOGIN_ERRORS', 'Edit error: '+ error.response.status+' '+error.response.statusText)
+                     this.dispatch('refreshToken')
+
                 })
         },
         deleteReservation ({commit }, id) {
@@ -182,22 +229,41 @@ export default new Vuex.Store({
 
                 )
                 .then(response => {
+
                     this.dispatch('userReservation', +this.state.user.id);
                     this.dispatch('getReservations');
+                    this.dispatch('getReservationByEmployee',  +window.location.hash.substr(1))
 
                 })
 
                 .catch(error => {
-                    if(error.message === 'Request failed with status code 401'){
-                       // this.dispatch('logout')
-                    }
+                    //this.dispatch('logout')
+                    commit('SET_LOGIN_ERRORS', 'Delete error: '+ error.response.status+' '+error.response.statusText)
+                     this.dispatch('refreshToken')
+
                 })
         },
         registerUser({ commit, state }, user) {
+
             axios
                 .post('http://barber-october.localhost/cms/api/auth/register', user)
                 .then(response => {
                     router.push({ name: 'profile' })
+                    let emailData = {
+                        email: user.get('email'),
+                        name: user.get('name'),
+                        subject: 'New Account',
+                        message: 'Thank you for joining in, please use your email '+user.get('email')+' and your password to login'
+                    }
+                    this.dispatch('sendEmail', emailData);
+
+                })
+
+                .catch(error => {
+
+                    //this.dispatch('logout')
+                    commit('SET_LOGIN_ERRORS', 'Register error: '+ error.response.status+' '+error.response.statusText)
+                    // this.dispatch('refreshToken')
 
                 })
         },
@@ -212,7 +278,6 @@ export default new Vuex.Store({
             axios
                 .post('http://barber-october.localhost/cms/api/auth/login', user)
                 .then(response => {
-
                     commit('SET_TOKEN', response.data.token)
                     commit('SET_USER', response.data.user)
                     commit('SET_VALID_TOKEN', true)
@@ -227,6 +292,7 @@ export default new Vuex.Store({
                     commit('SET_INVALID_CREDENTIALS', '')
                     commit('SET_LOGIN_ERRORS', [])
 
+                   // commit('SET_LOGIN_ERRORS', 'Login error: '+error.response.status+'- '+error.response.statusText)
 
                     if(error.response.data.error) {
                         commit('SET_INVALID_CREDENTIALS', error.response.data.error)
@@ -239,7 +305,7 @@ export default new Vuex.Store({
                             })
                         }
 
-                        console.log(errors)
+                      //  console.log(errors)
 
                         commit('SET_LOGIN_ERRORS', errors)
                     }
@@ -247,28 +313,29 @@ export default new Vuex.Store({
         },
         checkToken({ commit}){
           ///api/auth/me
-            axios
-                .get('http://barber-october.localhost/cms/api/auth/me', {params: {token:this.getters.token}})
-                .then(response => {
-                    console.log('token is valid');
-                    commit('SET_VALID_TOKEN', true)
-                    commit('SET_USER', response.data.user)
+            if(this.getters.token) {
+                axios
+                    .get('http://barber-october.localhost/cms/api/auth/me', {params: {token: this.getters.token}})
+                    .then(response => {
+                     //   console.log('token is valid');
+                        commit('SET_VALID_TOKEN', true)
+                        commit('SET_USER', response.data.user)
 
 
-
-                })
-                .catch(error => {
-                    if(error.message === 'Request failed with status code 401'){
-                        console.log('token needs refreshing');
-                        this.dispatch('refreshToken')
-                    }
+                    })
+                    .catch(error => {
+                            console.log('token needs refreshing');
+                              this.dispatch('refreshToken')
 
 
-                })
+                    })
+            }else{
+                router.push({ name: 'profile' })
+            }
         },
-        refreshToken(){
+        refreshToken({commit}){
           ///api/auth/refresh-token
-            axios
+           axios
                 .post('http://barber-october.localhost/cms/api/auth/refresh-token', {token:this.getters.token})
                 .then(response => {
                     console.log('token has been refreshed');
@@ -277,21 +344,24 @@ export default new Vuex.Store({
                 })
                 .catch(error => {
                     if(error){
-                        console.log('logged out');
+                        console.log('cant refresh logged out');
                         this.dispatch('logout')
                     }
 
                 })
         },
         createReservation({ commit, state }, data) {
+            let emailData = {
+                email: data.userEmail,
+                name: data.username,
+                subject: 'New Reservation',
+                message: 'Your reserved '+data.typeValue+' at '+data.date
+            }
             const authorization = {
                 headers: {
                     Authorization: `Bearer ${this.state.token}`
                 }
             }
-
-
-
 
             axios
                 .post(
@@ -302,12 +372,38 @@ export default new Vuex.Store({
 
                 )
                 .then(response => {
-                    console.log(response);
+                    //console.log(response);
                     this.dispatch('userReservation', +this.state.user.id);
                     this.dispatch('getReservations');
+                    this.dispatch('getReservationByEmployee',  +window.location.hash.substr(1))
+
+
+                    console.log(emailData);
+                    this.dispatch('sendEmail', emailData);
                 })
+
+
                 .catch(error => {
-                    console.log(error)
+                    //this.dispatch('logout')
+                    commit('SET_LOGIN_ERRORS', 'Creating error: '+ error.response.status+' '+error.response.statusText)
+                     this.dispatch('refreshToken')
+
+                })
+        },
+        sendEmail ({ commit, state }, data)  {
+              fetch('http://barber-october.localhost/mail/mailswift/notifications.php', {
+
+                method: "POST",
+                body: "subject="+data.subject+"&email="+data.email+"&name="+data.name+"&message="+data.message,
+                headers:
+                    {
+                        "Content-Type": "application/x-www-form-urlencoded"
+                    }
+            }).then( response => {
+                console.log(response);
+            })
+                .catch( error => {
+                    console.log(error);
                 })
         }
 

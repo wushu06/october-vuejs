@@ -1,0 +1,15 @@
+fields:
+    job_title:
+        label: 'Job title'
+        span: auto
+        type: text
+    name:
+        label: Name
+        span: auto
+        type: text
+    reservation:
+        label: Reservations
+        nameFrom: date
+        descriptionFrom: description
+        span: auto
+        type: relation

@@ -32,7 +32,13 @@ class User extends UserBase
      * @var array Relations
      */
     public $belongsToMany = [
-        'groups' => [UserGroup::class, 'table' => 'users_groups']
+        'groups' => [UserGroup::class, 'table' => 'users_groups'],
+        'reservation_id' => [
+          'nourdigital\nourdigital\models\Reservation', // define the model where the data is coming from
+          'table' => 'nourdigital_nourdigital_reservations_users', // the table where the data is coming from
+
+        ]
+
     ];
 
     public $attachOne = [

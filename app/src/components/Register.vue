@@ -55,11 +55,23 @@
 
         </form>
         <p>Already have an account? <router-link to="/profile">login</router-link></p>
+        <v-snackbar
+                v-model="snackbar"
+                :bottom="y === 'bottom'"
+                :multi-line="mode === 'multi-line'"
+                :timeout="timeout"
+                :vertical="mode === 'vertical'"
+
+        >
+            {{errors}}
+
+        </v-snackbar>
     </v-container>
 </template>
 <script>
     import { validationMixin } from 'vuelidate'
     import router from '../router'
+    import { mapState, mapGetters } from 'vuex';
 
     import { required,  minLength,sameAs, email } from 'vuelidate/lib/validators'
 
@@ -83,12 +95,21 @@
             email: '',
             repeatPassword: '',
             name: '',
-            surname: ''
+            surname: '',
+            errors:  '',
+            snackbar: false,
+            y: 'bottom',
+            x: null,
+            mode: '',
+            timeout: 4000,
 
         }),
 
 
         computed: {
+            ...mapGetters([
+                'loginErrors'
+            ]),
 
             token(){
                 if(this.$store.getters.token){
@@ -131,6 +152,17 @@
                 return errors
             }
         },
+        watch: {
+            loginErrors (newCount, oldCount) {
+                console.log(newCount);
+                // Our fancy notification (2).
+                // if(newCount !== oldCount) {
+                this.snackbar = true
+                this.errors = newCount
+
+                // }
+            }
+        },
 
         methods: {
             submit () {
@@ -161,6 +193,9 @@
                 this.name = ''
                 this.email = ''
             }
+        },
+        mounted(){
+
         }
     }
 </script>

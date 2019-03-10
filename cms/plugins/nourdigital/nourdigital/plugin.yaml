@@ -14,3 +14,7 @@ navigation:
                 label: 'Service type'
                 url: nourdigital/nourdigital/types
                 icon: icon-ticket
+            employees:
+                label: Employees
+                url: nourdigital/nourdigital/employees
+                icon: icon-smile-o

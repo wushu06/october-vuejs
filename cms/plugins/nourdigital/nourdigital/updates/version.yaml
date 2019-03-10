@@ -15,3 +15,66 @@
 1.0.6:
     - 'Updated table nourdigital_nourdigital_reservations'
     - builder_table_update_nourdigital_nourdigital_reservations.php
+1.0.7:
+    - 'Created table nourdigital_nourdigital_employees'
+    - builder_table_create_nourdigital_nourdigital_employees.php
+1.0.8:
+    - 'Updated table nourdigital_nourdigital_employees'
+    - builder_table_update_nourdigital_nourdigital_employees.php
+1.0.9:
+    - 'Updated table nourdigital_nourdigital_reservations'
+    - builder_table_update_nourdigital_nourdigital_reservations_2.php
+1.0.10:
+    - 'Created table nourdigital_nourdigital_employees_reservations'
+    - builder_table_create_nourdigital_nourdigital_employees_reservations.php
+1.0.11:
+    - 'Updated table nourdigital_nourdigital_employees_reservations'
+    - builder_table_update_nourdigital_nourdigital_employees_reservations.php
+1.0.12:
+    - 'Updated table nourdigital_nourdigital_reservations'
+    - builder_table_update_nourdigital_nourdigital_reservations_3.php
+1.0.13:
+    - 'Drop table nourdigital_nourdigital_employees'
+    - builder_table_delete_nourdigital_nourdigital_employees.php
+1.0.14:
+    - 'Updated table nourdigital_nourdigital_employees_reservations'
+    - builder_table_update_nourdigital_nourdigital_employees_reservations_2.php
+1.0.15:
+    - 'Updated table nourdigital_nourdigital_reservations'
+    - builder_table_update_nourdigital_nourdigital_reservations_4.php
+1.0.16:
+    - 'Drop table nourdigital_nourdigital_reservations_users'
+    - builder_table_delete_nourdigital_nourdigital_reservations_users.php
+1.0.17:
+    - 'Updated table nourdigital_nourdigital_employees_reservations'
+    - builder_table_update_nourdigital_nourdigital_employees_reservations_3.php
+1.0.18:
+    - 'Created table nourdigital_nourdigital_employees'
+    - builder_table_create_nourdigital_nourdigital_employees_2.php
+1.0.19:
+    - 'Updated table nourdigital_nourdigital_employees'
+    - builder_table_update_nourdigital_nourdigital_employees_2.php
+1.0.20:
+    - 'Updated table nourdigital_nourdigital_employees'
+    - builder_table_update_nourdigital_nourdigital_employees_3.php
+1.0.21:
+    - 'Updated table nourdigital_nourdigital_employees'
+    - builder_table_update_nourdigital_nourdigital_employees_4.php
+1.0.22:
+    - 'Updated table nourdigital_nourdigital_employees'
+    - builder_table_update_nourdigital_nourdigital_employees_5.php
+1.0.23:
+    - 'Updated table nourdigital_nourdigital_employees'
+    - builder_table_update_nourdigital_nourdigital_employees_6.php
+1.0.24:
+    - 'Updated table nourdigital_nourdigital_employees'
+    - builder_table_update_nourdigital_nourdigital_employees_7.php
+1.0.25:
+    - 'Updated table nourdigital_nourdigital_employees'
+    - builder_table_update_nourdigital_nourdigital_employees_8.php
+1.0.26:
+    - 'Updated table nourdigital_nourdigital_employees'
+    - builder_table_update_nourdigital_nourdigital_employees_9.php
+1.0.27:
+    - 'Updated table nourdigital_nourdigital_employees_reservations'
+    - builder_table_update_nourdigital_nourdigital_employees_reservations_4.php

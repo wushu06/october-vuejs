@@ -1,0 +1,7 @@
+{
+    "require": {
+        "mailjet/mailjet-apiv3-php": "^1.4",
+        "swiftmailer/swiftmailer": "^6.1",
+        "kreait/firebase-php": "^4.18"
+    }
+}

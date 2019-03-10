@@ -21,17 +21,22 @@
                 </template>
             </v-data-table>
            
-            <div>
 
-
-
-                <Reserve :edit="edit" :editDate="editDate" :editData="editData" :all="false"/>
-            </div>
         </div>
 
             <Login v-else/>
 
+        <v-snackbar
+                v-model="snackbar"
+                :bottom="y === 'bottom'"
+                :multi-line="mode === 'multi-line'"
+                :timeout="timeout"
+                :vertical="mode === 'vertical'"
 
+        >
+            {{errors}}
+
+        </v-snackbar>
 
 
 
@@ -39,6 +44,8 @@
 
 </template>
 <script>
+    import { mapState, mapGetters } from 'vuex';
+
     import Login from '../components/Login';
     import Reserve from '../components/Reserve';
     export default {
@@ -54,6 +61,12 @@
                     { text: 'Edit', value: 'edit',  sortable: false },
                     { text: 'Delete', value: 'delete',  sortable: false },
                 ],
+                errors:  '',
+                snackbar: false,
+                y: 'bottom',
+                x: null,
+                mode: '',
+                timeout: 4000,
             }
 
 
@@ -64,6 +77,9 @@
         },
         // now go back to the file and call the getter
         computed: {
+            ...mapGetters([
+                'loginErrors'
+            ]),
             user(){
 
                 return this.$store.getters.user;
@@ -75,6 +91,16 @@
 
             userReservation(){
                 return   this.$store.getters.userReservation
+            }
+        },
+        watch: {
+            loginErrors (newCount, oldCount) {
+                // Our fancy notification (2).
+                // if(newCount !== oldCount) {
+                this.snackbar = true
+                this.errors = newCount
+
+                // }
             }
         },
         methods:{

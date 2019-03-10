@@ -5,14 +5,20 @@ fields:
         span: auto
         type: datepicker
     user:
-        label: User
+        label: Clients
         nameFrom: name
-        descriptionFrom: description
+        descriptionFrom: 'Client name'
         span: auto
         type: relation
     type:
         label: 'Service type'
         nameFrom: type
         descriptionFrom: description
+        span: auto
+        type: relation
+    employee:
+        label: Employee
+        nameFrom: name
+        descriptionFrom: Employee
         span: auto
         type: relation

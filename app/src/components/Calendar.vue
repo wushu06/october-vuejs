@@ -4,7 +4,6 @@
             <div id="calendar"></div>
         </div>
             {{  showCalendar}}
-            {{reservations}}
 
             <v-btn @click="ref">refresh</v-btn>
             <v-dialog v-model="dialog" persistent max-width="490" width="90%">
@@ -58,24 +57,16 @@
             ]
         }),
         computed: {
-            // convert the list of events into a map of lists keyed by date
-            reservations(){
 
-                $('body').css({
-                    'background' : 'black'
-                })
-
-            },
             showCalendar ()  {
+               ;
+                let events =  this.employeeData
 
-                let events = this.all  ?   this.$store.getters.allReservations : this.employeeData
 
                 const _self = this
                 $(document).ready(function() {
                     _self.monthView = (localStorage.getItem('view') !== 'agendaWeek')
-                    console.log(_self.monthView);
                     let view = localStorage.getItem('view') ? localStorage.getItem('view') : 'agendaWeek'
-                    console.log(view);
                     $(document).on('click', '.fc-month-button', function(){
                         localStorage.setItem('view', 'month')
                        _self.monthView = true
@@ -107,6 +98,7 @@
 
                     })
 
+
                     $('#calendar').fullCalendar({
                         header: {
                             left: 'prev,next today',
@@ -120,12 +112,13 @@
                         selectable: true,
                         selectHelper: true,
                         droppable: true,
+                        timezone : 'local',
                         defaultView:  view ,
-                        start: moment(new Date()).format('YYYY-MM-DD')
-                       /* validRange: {
+                        start: moment(new Date()).format('YYYY-MM-DD'),
+                        validRange: {
                             start: moment(new Date()).format('YYYY-MM-DD'),
                             end: moment(new Date()).add(1, 'month').format('YYYY-MM-DD')
-                        }*/,
+                        },
                         minTime: "09:00:00",
                         maxTime: "18:00:00",
                         slotDuration: '00:30:00',

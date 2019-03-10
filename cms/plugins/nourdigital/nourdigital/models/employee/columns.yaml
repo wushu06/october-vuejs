@@ -1,0 +1,7 @@
+columns:
+    job_title:
+        label: 'Job title'
+        type: text
+    user_id:
+        label: 'User id'
+        type: text

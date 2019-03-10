@@ -27,10 +27,23 @@ aside {
 .calendar_wrapper {
   overflow-y: scroll;
 }
+.calendar_container {
+  background:  #5c6bc0;
+  & > div {
+    background: white;
+    padding: 10px;
+  }
+
+}
 .fc-disabled-day {
   background: red !important;
 
 }
 .active {
-  color: #5c6bc0!important;
+  color: white;
+  background: #5c6bc0 !important;
+}
+.employee_wrapper {
+  padding-right: 0 !important;
+  padding-top: 0 !important;
 }

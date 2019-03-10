@@ -1,0 +1,10 @@
+name: Employees
+form: $/nourdigital/nourdigital/models/employee/fields.yaml
+modelClass: Nourdigital\Nourdigital\Models\Employee
+defaultRedirect: nourdigital/nourdigital/employees
+create:
+    redirect: 'nourdigital/nourdigital/employees/update/:id'
+    redirectClose: nourdigital/nourdigital/employees
+update:
+    redirect: nourdigital/nourdigital/employees
+    redirectClose: nourdigital/nourdigital/employees
