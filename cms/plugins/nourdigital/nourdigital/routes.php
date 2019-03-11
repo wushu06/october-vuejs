@@ -4,6 +4,7 @@ use nourdigital\nourdigital\models\Type;
 use nourdigital\nourdigital\models\Reservation;
 use nourdigital\nourdigital\models\Employee;
 //use RainLab\User\Models\User;
+use Nourdigital\Nourdigital\Models\Calendar;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
 
@@ -29,6 +30,10 @@ Route::get('employees', function () {
 Route::get('users', function () {
     $employees = User::all();
     return $employees;
+});
+Route::get('calendar', function () {
+    $calendar = Calendar::all();
+    return $calendar;
 });
 
 // jobs by id and reservations by id are the same

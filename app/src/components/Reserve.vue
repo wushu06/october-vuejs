@@ -49,7 +49,6 @@
                             <datetime
                                     @input="setDate($event)"
                                     type="time"
-                                    use12-hour
                                     :min-datetime="now"
                                     :max-datetime="now"
                             />
@@ -167,7 +166,7 @@
                 const user_id = +this.$store.getters.user.id
                 const data = {
                     token: this.$store.getters.token,
-                    date: this.date ? moment(this.date).format('YYYY-MM-DD hh:mm') : moment(this.editData.date).format('YYYY-MM-DD hh:mm'),
+                    date: this.date ? moment(this.date).format('YYYY-MM-DD  H:mm::ss') : moment(this.editData.date).format('YYYY-MM-DD  H:mm::ss'),
                     type_id: this.type ? +this.type : +this.editData.type_id,
                     user_id: user_id,
                     id: this.editData.id,
@@ -181,12 +180,11 @@
                 const date = this.eventDate ? new Date(this.eventDate) : new Date(Date.now())
                 !this.monthView ? this.date = date : ''
 
-
                 if (this.date && this.type) {
               
                     const data = {
                         token: this.$store.getters.token,
-                        date: moment(this.date).format('YYYY-MM-DD hh:mm'),
+                        date: moment(this.date).format('YYYY-MM-DD HH:mm::ss'),
                         type_id: +this.type,
                         typeValue: this.typeValue,
                         user_id: +this.$store.getters.user.id,
@@ -204,7 +202,7 @@
                 this.$store.dispatch('deleteReservation', +reservationId);
             },
             moment: function (date) {
-                return moment(date).format('MMMM Do YYYY, h:mm:ss a');
+                return moment(date).format('MMMM Do YYYY, H:mm::ss');
             }
         },
         created() {

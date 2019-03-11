@@ -51,7 +51,7 @@
             </v-flex>
             <v-flex xs10 md10 lg10 v-bind:class="{ calendar_container: hash}" >
                 <div >
-              <calendar :employeeData="employeeData" :all="all"/>
+              <calendar :employeeData="employeeGetData" :all="all"/>
                 </div>
             </v-flex>
         </v-layout>
@@ -75,7 +75,7 @@
     export default {
         data(){
           return {
-              employeeData: [],
+              employeeGetData: [],
               all: true,
               hash: '',
               isActive: true,
@@ -97,7 +97,7 @@
         },
         computed: {
             ...mapGetters([
-                'loginErrors'
+                'loginErrors', 'employeeData'
             ]),
 
             getHashId(){
@@ -110,7 +110,7 @@
 
             },
             single(){
-                this.employeeData = window.location.hash  ?
+                this.employeeGetData = window.location.hash  ?
                     this.$store.getters.employeeData :
                     this.$store.getters.allReservations
 
@@ -127,6 +127,9 @@
                 this.errors = newCount
 
                 // }
+            },
+            employeeData(newData, oldData){
+                this.employeeGetData = newData
             }
         },
         methods:{
@@ -146,7 +149,7 @@
                 window.location.hash = ''
                 window.location.href.replace(/#.*$/, '')
                 this.all = true
-                this.employeeData =  this.$store.getters.allReservations
+                this.employeeGetData =  this.$store.getters.allReservations
             },
 
 
@@ -160,7 +163,7 @@
                  this.all = false
                  this.$store.dispatch('getReservationByEmployee', +window.location.hash.substr(1))
             }else{
-               // this.employeeData = this.$store.getters.allReservations
+               // this.employeeGetData = this.$store.getters.allReservations
             }
 
 

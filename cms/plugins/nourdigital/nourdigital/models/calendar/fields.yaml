@@ -1,0 +1,48 @@
+fields:
+    weekends:
+        label: Weekends
+        span: auto
+        type: text
+        comment: 'example: saturday, sunday'
+    slot:
+        label: Slot
+        span: auto
+        placeholder: ''
+        type: text
+        comment: 'slot duration, example: 00:30:00'
+    business_hours_start:
+        label: 'Business hours (start)'
+        mode: time
+        span: auto
+        type: datepicker
+    business_hours_end:
+        label: 'Business hours (end)'
+        mode: time
+        span: auto
+        type: datepicker
+    date_range:
+        label: 'Date range'
+        span: auto
+        placeholder: ''
+        type: text
+        comment: 'write number of months user can see, put 0 for current month only'
+    disabled_date:
+        label: 'Disabled dates'
+        prompt: 'Add new item'
+        span: auto
+        type: repeater
+        form:
+            fields:
+                disabled_date:
+                    label: 'Disabled date'
+                    mode: date
+                    span: auto
+                    type: datepicker
+    calendar_view:
+        label: 'Calendar view'
+        options:
+            month: 'Monthly view'
+            agendaWeek: 'Weekly view'
+            agendaDay: 'Daily view'
+        span: auto
+        type: dropdown

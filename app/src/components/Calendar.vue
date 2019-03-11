@@ -59,12 +59,23 @@
         computed: {
 
             showCalendar ()  {
-               ;
+                let calendarData = this.$store.getters.calendar;
+                let minTime, maxTime, slot, dateRange,  disabledDates;
+                calendarData.length > 0 && calendarData.map(calendar => {
+                   // console.log(calendar);
+                    minTime = calendar.business_hours_start;
+                    maxTime = calendar.business_hours_end;
+                    slot = calendar.slot;
+                    dateRange = calendar.date_range;
+                    disabledDates = calendar.disabled_date
+                })
+
                 let events =  this.employeeData
 
 
                 const _self = this
-                $(document).ready(function() {
+                calendarData.length > 0 && $(document).ready(function() {
+
                     _self.monthView = (localStorage.getItem('view') !== 'agendaWeek')
                     let view = localStorage.getItem('view') ? localStorage.getItem('view') : 'agendaWeek'
                     $(document).on('click', '.fc-month-button', function(){
@@ -91,9 +102,10 @@
                             type_id: date.type.id ? date.type.id : date.type_id,
                             user_id: date.user_id,
                             title: date.type.type ? date.type.type : date.type,
-                            start: moment(date.date).format('YYYY-MM-DD h:mm:ss'),
-                            end: moment(date.date).format('YYYY-MM-DD h:mm:ss'),
-                            employee_id: date.employee_id
+                            start: moment(date.date).format('YYYY-MM-DD H:mm:ss'),
+                            end: moment(date.date).format('YYYY-MM-DD H:mm:ss'),
+                            employee_id: date.employee_id,
+                            backgroundColor: '#850986'
                         })
 
                     })
@@ -117,19 +129,17 @@
                         start: moment(new Date()).format('YYYY-MM-DD'),
                         validRange: {
                             start: moment(new Date()).format('YYYY-MM-DD'),
-                            end: moment(new Date()).add(1, 'month').format('YYYY-MM-DD')
+                            end: moment(new Date()).add(dateRange, 'month').format('YYYY-MM-DD')
                         },
-                        minTime: "09:00:00",
-                        maxTime: "18:00:00",
-                        slotDuration: '00:30:00',
+                        minTime: minTime,
+                        maxTime: maxTime,
+                        slotDuration: slot,
                         showNonCurrentDates: true,
                         firstDay: moment().day(),
                         businessHours: {
                             // days of week. an array of zero-based day of week integers (0=Sunday)
-                            dow: [ 1, 2, 3, 4 , 5, 6, 7], // Monday - Thursday
+                            dow: [ 1, 2, 3, 4 , 5], // Monday - Thursday
 
-                            start: '9:00', // a start time (10am in this example)
-                            end: '18:00', // an end time (6pm in this example)
                         },
                         viewRender: function(view, element){
                            let intervalStart = view.intervalStart.format();
@@ -140,7 +150,7 @@
                             var myDate = new Date();
 
                             //How many days to add from today?
-                            var daysToAdd = 15;
+                            var daysToAdd = 1;
 
                             myDate.setDate(myDate.getDate() + daysToAdd);
 
@@ -196,8 +206,12 @@
                         events: holidays
 
                     });
+                    disabledDates.length > 0 && disabledDates.map(ddate=> {
+                        let d = moment(ddate.disabled_date).format('YYYY-MM-DD');
+                        $("[data-date="+d+"]").attr("class", 'fc-day fc-widget-content fc-disabled-day');
 
-
+                    })
+                    //$("[data-date='2019-03-15']").addClass("disabled-slot");
                     $('#calendar').fullCalendar('unselect');
                 });
 
@@ -219,7 +233,7 @@
             handleDarag(date, type_id, user_id, employee_id) {
                 const data = {
                     token:  this.$store.getters.token,
-                    date:      moment(date).format('YYYY-MM-DD hh:mm'),
+                    date:      moment(date).format('YYYY-MM-DD HH:mm'),
                     type_id: +type_id,
                     user_id: +user_id,
                     id: this.dragId,
@@ -235,6 +249,7 @@
         },
         mounted() {
             // fire the vuex
+            this.$store.dispatch('getCalendar');
             this.$store.dispatch('getTypes');
             this.$store.dispatch('getReservations');
             this.$store.dispatch('getUsers');

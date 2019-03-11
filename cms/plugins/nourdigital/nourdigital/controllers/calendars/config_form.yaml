@@ -1,0 +1,10 @@
+name: Calendars
+form: $/nourdigital/nourdigital/models/calendar/fields.yaml
+modelClass: Nourdigital\Nourdigital\Models\Calendar
+defaultRedirect: nourdigital/nourdigital/calendars
+create:
+    redirect: 'nourdigital/nourdigital/calendars/update/:id'
+    redirectClose: nourdigital/nourdigital/calendars
+update:
+    redirect: nourdigital/nourdigital/calendars
+    redirectClose: nourdigital/nourdigital/calendars

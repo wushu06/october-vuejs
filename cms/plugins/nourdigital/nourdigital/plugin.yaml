@@ -18,3 +18,7 @@ navigation:
                 label: Employees
                 url: nourdigital/nourdigital/employees
                 icon: icon-smile-o
+            calendar:
+                label: Calendar
+                url: nourdigital/nourdigital/calendars
+                icon: icon-calendar

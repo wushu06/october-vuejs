@@ -28,12 +28,14 @@ export default new Vuex.Store({
         employees: [],
         users: [],
         employeeData: [],
+        calendar: [],
         token: '',
         loginErrors: '',
         invalidCredentials: '',
     },
     getters: {
         // getter will fetch the data from state whenever the state changes and assign it to allVehicles
+        calendar: state => state.calendar,
         employeeData: state => state.employeeData,
         allTypes : state => state.types,
         allEmployees : state => state.employees,
@@ -47,6 +49,9 @@ export default new Vuex.Store({
         invalidCredentials: state => state.invalidCredentials,
     },
     mutations: {
+        GET_CALENDAR: (state, calendar) => {
+            state.calendar = calendar
+        },
         GET_EMPLOYEES: (state, employees) => {
             state.employees = employees
         },
@@ -94,6 +99,21 @@ export default new Vuex.Store({
     },
 
     actions: {
+        getCalendar({commit }) {
+            axios.get('http://barber-october.localhost/cms/calendar')
+                .then((res)=> {
+                    // commit will fire mutations
+
+
+                    commit('GET_CALENDAR', res.data)
+                })
+                .catch(error => {
+                    //this.dispatch('logout')
+                    commit('SET_LOGIN_ERRORS', 'Getting calendar error: '+ error.response.status+' '+error.response.statusText)
+                   //  this.dispatch('refreshToken')
+
+                })
+        },
         getUsers({commit }) {
             axios.get('http://barber-october.localhost/cms/users')
                 .then((res)=> {
